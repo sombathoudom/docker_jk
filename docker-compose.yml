@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: g3tl0st
+      WORDPRESS_DB_PASSWORD: newPass 
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress:/var/www/html
+
+  db:
+    platform: linux/amd64
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: wordpress 
+      MYSQL_USER: g3tl0st 
+      MYSQL_PASSWORD: newPass 
+      MYSQL_RANDOM_ROOT_PASSWORD: 'root'
+
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  wordpress:
+  db:
+
+
+networks:
+   public:
+    driver: bridge
+    external: true
